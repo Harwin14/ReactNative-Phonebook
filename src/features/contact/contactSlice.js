@@ -14,7 +14,7 @@ const initialState = {
             page: 1,
             totalPages: 0
         }  
-    },  
+    },   
     status: 'idle'
 }
 
