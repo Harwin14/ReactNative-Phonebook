@@ -2,9 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { create } from './contactSlice'
 
+
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faBan, faCircleCheck, faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { Card } from "@paraboly/react-native-card";
 
 
 export default function ContactForm() {
@@ -27,8 +29,15 @@ export default function ContactForm() {
             width: '100%',
             flexDirection: 'column',
             alignContent: 'flex-start',
-            alignItems: 'center'
+            alignItems: 'center',
         }}>
+            <Card
+                iconDisable
+                title="Title"
+                description="Main Content"
+                bottomRightText="30"
+                onPress={() => { }}
+            />;
             <TextInput
                 style={{ height: 40 }}
                 placeholder="Enter Contact Name here.."
@@ -57,7 +66,7 @@ const styles = StyleSheet.create({
     },
     submit: {
         width: '100%',
-        padding:5,
+        padding: 5,
         backgroundColor: 'blue',
         borderStyle: 'solid',
         borderColor: 'white',
@@ -65,9 +74,10 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     labelButton: {
-        fontWeight:'bold',
+        fontWeight: 'bold',
         textTransform: 'uppercase',
-        textAlign:'center',
+        textAlign: 'center',
         color: '#ffffff'
-    }
+    },
+
 });

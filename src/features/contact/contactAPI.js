@@ -6,7 +6,7 @@ const request = axios.create({
   headers: { 'Authorization': 'token' }
 });
 
-export const readContact = () => request.get('users')
+export const readContact = () => request.get('users') 
 
 export const createContact = (name, phone) => request.post('users', { name, phone})
 

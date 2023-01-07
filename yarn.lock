@@ -1088,6 +1088,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@paraboly/react-native-card@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@paraboly/react-native-card/-/react-native-card-1.0.3.tgz#81a31c2bf7e53a6be1ff7ca23ead42ca6eacdd47"
+  integrity sha512-/Zj1vW8K91MXV3xGsXcuNLcF/V8dIRwQAYX16idjh2GQ4oyBADeQ2oiiXOHM1Yi/TUaCRO5QHQ0EDJbDPEPwkw==
+
 "@react-native-community/cli-clean@^9.2.1":
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-clean/-/cli-clean-9.2.1.tgz#198c5dd39c432efb5374582073065ff75d67d018"
