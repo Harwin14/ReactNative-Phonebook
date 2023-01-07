@@ -16,7 +16,7 @@ export default function Contact() {
             alignItems: 'center',
             justifyContent: 'flex-start',
             margin: 0,
-            padding: 20 
+            padding: 20
         }}>
 
             <ContactForm />
