@@ -15,7 +15,7 @@ export default function Contact() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'flex-start',
-            margin: 0,  
+            margin: 0,
             padding: 20 
         }}>
 
