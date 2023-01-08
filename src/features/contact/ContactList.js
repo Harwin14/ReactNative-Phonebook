@@ -38,7 +38,7 @@ export default function ContactList(props) {
             style={{ display: 'flex', padding: 20 }}
         // style={{ overflowY: "scroll", height: 350 }}
         // className="card-b shadow  mt-5 mx-auto d-flex justify-content-evenly d-flex flex-wrap " 
-        >
+        > 
             {
                 contacts.map((user, index) => (
                     <ContactItem

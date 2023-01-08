@@ -30,7 +30,7 @@ export default function ContactForm() {
             flexDirection: 'column',
             alignContent: 'flex-start',
             alignItems: 'center',
-        }}>
+        }}> 
             <Card
                 iconDisable
                 title="Title"
