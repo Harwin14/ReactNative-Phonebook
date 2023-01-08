@@ -187,7 +187,7 @@ export const contactSlice = createSlice({
                         })]
                     } 
                 } 
-            })
+            }) 
             .addCase(deleteContactAsync.fulfilled, (state, action) => {
                 state.status = 'idle'
                 state.value = {
