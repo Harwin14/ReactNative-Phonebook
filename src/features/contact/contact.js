@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import ContactForm from "./ContactForm";
 import ContactList from "./ContactList";
 import ContactSearch from "./ContactSearch"
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faContactBook, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 
@@ -25,13 +25,19 @@ export default function Contact() {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>PhoneBooks Apps</Text>
+            <View style={styles.h1}>
+                <FontAwesome5 style={styles.icon} name="address-book" />
+                <Text style={styles.title}> PhoneBooks</Text>
+            </View>
             <View >
                 {
                     user.isAdd ? <ContactForm cancel={handleCancelForm} />
                         :
                         <TouchableOpacity style={styles.button} onPress={handleAddForm}>
-                            <Text style={styles.labelButton}>Add</Text>
+                            <View style={styles.h1}>
+                            <FontAwesome5 style={styles.icon1} name="plus" />
+                            <Text style={styles.labelButton}> Add</Text>
+                            </View>
                         </TouchableOpacity>
                 }
                 <ContactSearch />
@@ -47,25 +53,30 @@ const styles = StyleSheet.create({
     container: {
         padding: 10
     },
+    h1: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
     form: {
-        height: 40,
+        height: 30,
         borderWidth: 5,
         borderColor: 'black',
         borderWidth: 1,
         borderRadius: 6,
     },
     title: {
-        fontSize: 40,
+        fontSize: 50,
         fontWeight: 'bold',
-        color: 'black'
+        color: 'black',
+        textAlign: 'center'
     },
     button: {
-        width: 60,
+        width: 70,
         height: 40,
         padding: 5,
-        backgroundColor: 'blue',
+        backgroundColor: '#2d3436',
         borderStyle: 'solid',
-        borderColor: 'white',
+        borderColor: '#dfe6e9',
         borderWidth: 1,
         borderRadius: 20,
         justifyContent: 'center',
@@ -74,11 +85,20 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
         textAlign: 'center',
-        color: '#ffffff',
+        color:'#dfe6e9',
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
         letterSpacing: 0.25,
+    },
+    icon: {
+        color: 'black',
+        fontSize: 50,
+        paddingTop: 5
+    },
+    icon1: {
+        color: '#dfe6e9',
+        fontSize: 20,
     },
 });
 

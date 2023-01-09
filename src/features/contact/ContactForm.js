@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     cardHeader: {
-        backgroundColor: '#f5f6fa',
+        backgroundColor: '#2d3436',
         borderRadius: 5,
         width: '100%',
         height: 40,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         alignContent: 'center',
         justifyContent: 'center',
-        color: 'black',
+        color: '#dfe6e9',
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
@@ -96,21 +96,21 @@ const styles = StyleSheet.create({
         height: 40
       },
     shadowProp: {
-        shadowColor: '#171717',
+        shadowColor: 'blue',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
     },
     elevation: {
         elevation: 20,
-        shadowColor: 'black',
+        shadowColor: 'blue',
     },
     form: {
         display: 'flex',
         flexDirection: 'row',
     },
     button: {
-        backgroundColor: '#4cd137',
+        backgroundColor: '#2d3436',
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         marginHorizontal:5
     },
     cancel: {
-        backgroundColor: '#f39c12',
+        backgroundColor: '#2d3436',
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
         textAlign: 'center',
-        color: '#ffffff',
+        color: '#dfe6e9',
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',

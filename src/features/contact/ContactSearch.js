@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { search } from './contactSlice';
 import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import DropShadow from "react-native-drop-shadow";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 
 export default function ContactForm(props) {
@@ -26,18 +27,21 @@ export default function ContactForm(props) {
         <View>
             <View style={[styles.card, styles.elevation, styles.shadowProp]}>
                 <View style={styles.cardHeader}>
-                <Text style={styles.chead}>Search Form</Text>
+                    <View style={styles.h1}>
+                        <FontAwesome5 style={styles.icon} name="search" />
+                        <Text style={styles.chead}> Search Form</Text>
+                    </View>
                 </View>
                 <TextInput
                     style={styles.input}
                     placeholder="Enter Contact Name here.."
-                    onChangeText={name => setUser({...user, name})}
+                    onChangeText={name => setUser({ ...user, name })}
                     defaultValue={user.name}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Enter Phone number here.."
-                    onChangeText={phone => setUser({...user, phone})}
+                    onChangeText={phone => setUser({ ...user, phone })}
                     defaultValue={user.phone}
                 />
                 <DropShadow style={styles.shadowProp}>
@@ -55,76 +59,79 @@ export default function ContactForm(props) {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: 'white',
+        borderWidth: 2,
+        borderColor: '#636e72',
         borderRadius: 10,
         paddingBottom: 5,
         paddingHorizontal: 0,
         width: '100%',
         marginVertical: 10,
     },
+    h1: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
     cardHeader: {
-        backgroundColor: '#f5f6fa',
+        backgroundColor: '#2d3436',
         borderRadius: 5,
         width: '100%',
-        height:40,
-        paddingHorizontal:10
+        height: 40,
+        paddingHorizontal: 10
     },
-    chead:{
+    chead: {
         fontWeight: 'bold',
         textTransform: 'uppercase',
-        alignContent:'center',
-        justifyContent:'center',
-        color: 'black',
+        alignContent: 'center',
+        justifyContent: 'center',
+        color: '#dfe6e9',
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
         letterSpacing: 0.25,
-        marginTop:10
+        marginTop: 10
     },
-    input:{
-      borderWidth:2,
-      borderColor:'#f5f6fa',
-      borderRadius:6,
-      borderTopWidth:0,
-      height: 40
+    input: {
+        borderWidth: 2,
+        borderColor: '#2d3436',
+        borderRightWidth: 0,
+        borderLeftWidth: 0,
+        borderRadius: 6,
+        borderTopWidth: 0,
+        height: 40
     },
     shadowProp: {
-        shadowColor: '#171717',
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
+        shadowColor: 'black',
+        shadowOffset: { width: -2, height: 7 },
+        shadowOpacity: 0.5,
         shadowRadius: 3,
     },
     elevation: {
-        elevation: 20,
+        elevation: 100,
         shadowColor: 'black',
     },
-   
-    submit: {
-        width: '100%',
-        padding: 5,
-        backgroundColor: 'blue',
-        borderStyle: 'solid',
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 10
-    },
+
     button: {
-        backgroundColor: 'blue',
+        backgroundColor: '#2d3436',
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
         borderRadius: 10,
-        marginVertical:10,
-        marginHorizontal:5
+        marginVertical: 10,
+        marginHorizontal: 5
     },
     labelButton: {
         fontWeight: 'bold',
         textTransform: 'uppercase',
         textAlign: 'center',
-        color: '#ffffff',
+        color: '#dfe6e9',
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
         letterSpacing: 0.25,
     },
-
+    icon: {
+        color: '#dfe6e9',
+        fontSize: 20,
+        paddingTop:8
+    },
 });

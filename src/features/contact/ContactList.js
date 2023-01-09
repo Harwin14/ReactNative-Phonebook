@@ -15,7 +15,6 @@ import { ScrollView, View ,StyleSheet } from "react-native";
 export default function ContactList(props) {
 
     const contacts = useSelector(selectContact)
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -33,7 +32,7 @@ export default function ContactList(props) {
 
     return (
         <View> 
-        <ScrollView scrollEnabled={scrolling}>
+        <ScrollView scrollEnabled={scrolling} pagingEnabled={true} showsHorizontalScrollIndicator={true}>
             {
                 contacts.map((user, index) => (
                     <ContactItem
