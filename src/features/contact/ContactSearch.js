@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { search } from './contactSlice';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import DropShadow from "react-native-drop-shadow";
 
-export default function ContactForm() {
+
+export default function ContactForm(props) {
     const dispatch = useDispatch()
     const [user, setUser] = useState({
         isAdd: false,
@@ -12,16 +13,6 @@ export default function ContactForm() {
         phone: ''
     })
 
-    const handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        setUser({
-            ...user,
-            [name]: value
-        });
-    }
 
     const handleSubmit = useCallback((event) => {
         event.preventDefault()
@@ -32,32 +23,108 @@ export default function ContactForm() {
 
 
     return (
-        <div className="card mt-3">
-            <div className="card-header font"><FontAwesomeIcon icon={faMagnifyingGlass} /> Search Form
-            </div>
-            <form className="g-3 my-2 px-4"
-                onSubmit={handleSubmit}
-            >
-                <div className="d-flex">
-                    <div className="d-flex align-items-center me-2">
-                        <div className="me-1 fw-bold">
-                            <label htmlFor="name">Name</label>
-                        </div>
-                        <div className="ms-1">
-                            <input type="text" className="form-control" name="name" onChange={handleInputChange} value={user.name} placeholder="name"></input>
-                        </div>
-                    </div>
-                    <div className="d-flex align-items-center ms-2">
-                        <div className="me-1 fw-bold">
-                            <label htmlFor="phone">Phone</label>
-                        </div>
-                        <div className="ms-1">
-                            <input type="text" className="form-control" name="phone" onChange={handleInputChange} value={user.phone} placeholder="name"></input>
-                        </div>
-                    </div>
-                    <button type="submit" id="submit"></button>
-                </div>
-            </form>
-        </div>
+        <View>
+            <View style={[styles.card, styles.elevation, styles.shadowProp]}>
+                <View style={styles.cardHeader}>
+                <Text style={styles.chead}>Search Form</Text>
+                </View>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter Contact Name here.."
+                    onChangeText={name => setUser({...user, name})}
+                    defaultValue={user.name}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter Phone number here.."
+                    onChangeText={phone => setUser({...user, phone})}
+                    defaultValue={user.phone}
+                />
+                <DropShadow style={styles.shadowProp}>
+                    <Pressable
+                        style={styles.button}
+                        onPress={handleSubmit}>
+                        <Text style={styles.labelButton}>Search</Text>
+                    </Pressable>
+                </DropShadow>
+
+            </View>
+        </View >
     )
 }
+const styles = StyleSheet.create({
+    card: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingBottom: 5,
+        paddingHorizontal: 0,
+        width: '100%',
+        marginVertical: 10,
+    },
+    cardHeader: {
+        backgroundColor: '#f5f6fa',
+        borderRadius: 5,
+        width: '100%',
+        height:40,
+        paddingHorizontal:10
+    },
+    chead:{
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        alignContent:'center',
+        justifyContent:'center',
+        color: 'black',
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        marginTop:10
+    },
+    input:{
+      borderWidth:2,
+      borderColor:'#f5f6fa',
+      borderRadius:6,
+      borderTopWidth:0,
+      height: 40
+    },
+    shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    },
+    elevation: {
+        elevation: 20,
+        shadowColor: 'black',
+    },
+   
+    submit: {
+        width: '100%',
+        padding: 5,
+        backgroundColor: 'blue',
+        borderStyle: 'solid',
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 10
+    },
+    button: {
+        backgroundColor: 'blue',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        borderRadius: 10,
+        marginVertical:10,
+        marginHorizontal:5
+    },
+    labelButton: {
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        color: '#ffffff',
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+    },
+
+});

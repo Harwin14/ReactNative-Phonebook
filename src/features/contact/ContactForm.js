@@ -5,18 +5,16 @@ import { create } from './contactSlice'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faBan, faCircleCheck, faAddressCard } from '@fortawesome/free-solid-svg-icons'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
-import { Card } from "@paraboly/react-native-card";
+import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import DropShadow from "react-native-drop-shadow";
 
-
-export default function ContactForm() {
-
+export default function ContactForm(props) {
     const dispatch = useDispatch()
-
     const [user, setUser] = useState({
         name: '',
         phone: ''
     });
+
 
     const handleSubmit = useCallback(() => {
         dispatch(create(user.name, user.phone))
@@ -24,60 +22,120 @@ export default function ContactForm() {
     }, [dispatch, user])
 
     return (
-        <View style={{
-            display: 'flex',
-            width: '100%',
-            flexDirection: 'column',
-            alignContent: 'flex-start',
-            alignItems: 'center',
-        }}> 
-            <Card
-                iconDisable
-                title="Title"
-                description="Main Content"
-                bottomRightText="30"
-                onPress={() => { }}
-            />;
+        <View style={[styles.card, styles.elevation, styles.shadowProp]}>
+            <View style={styles.cardHeader}>
+                <Text style={styles.chead}>Add Form</Text>
+            </View>
+            <View >
+                <TextInput
+                     style={styles.input}
+                    placeholder="Enter Contact Name here.."
+                    onChangeText={name => setUser({...user, name})}
+                    defaultValue={user.name}
+                />
+            </View>
             <TextInput
-                style={{ height: 40 }}
-                placeholder="Enter Contact Name here.."
-                onChangeText={name => setUser(...user, name)}
-                defaultValue={user.name}
-            />
-            <TextInput
-                style={{ height: 40 }}
+                 style={styles.input}
                 placeholder="Enter Phone number here.."
-                onChangeText={phone => setUser(...user, phone)}
+                onChangeText={phone => setUser({...user, phone})}
                 defaultValue={user.phone}
             />
-            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
-                <Text style={styles.labelButton}>Save</Text>
-            </TouchableOpacity>
+
+            <DropShadow style={styles.shadowProp}>
+                <Pressable
+                    style={styles.button}
+                    onPress={handleSubmit}>
+                    <Text style={styles.labelButton}>Save</Text>
+                </Pressable>
+            </DropShadow>
+
+            <DropShadow style={styles.shadowProp}>
+                <Pressable
+                    style={styles.cancel}
+                    onPress={props.cancel}>
+                    <Text style={styles.labelButton}>Cancel</Text>
+                </Pressable>
+            </DropShadow>
+
         </View>
     )
 }
 const styles = StyleSheet.create({
-    container: {
-        height: 50,
+    card: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingBottom: 5,
+        paddingHorizontal: 0,
+        width: '100%',
+        marginVertical: 10,
+    },
+    cardHeader: {
+        backgroundColor: '#f5f6fa',
+        borderRadius: 5,
+        width: '100%',
+        height: 40,
+        paddingHorizontal: 10
+    },
+    chead: {
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        alignContent: 'center',
+        justifyContent: 'center',
+        color: 'black',
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        marginTop: 10
+    },
+    input:{
+        borderWidth:2,
+        borderColor:'#f5f6fa',
+        borderRadius:6,
+        borderTopWidth:0,
+        height: 40
+      },
+    shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    },
+    elevation: {
+        elevation: 20,
+        shadowColor: 'black',
+    },
+    form: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
     },
-    submit: {
-        width: '100%',
-        padding: 5,
-        backgroundColor: 'blue',
-        borderStyle: 'solid',
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 5
+    button: {
+        backgroundColor: '#4cd137',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        borderRadius: 10,
+        marginTop:10,
+        marginHorizontal:5
+    },
+    cancel: {
+        backgroundColor: '#f39c12',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        borderRadius: 10,
+        marginVertical:10,
+        marginHorizontal:5
     },
     labelButton: {
         fontWeight: 'bold',
         textTransform: 'uppercase',
         textAlign: 'center',
-        color: '#ffffff'
+        color: '#ffffff',
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
     },
 
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Provider } from 'react-redux';
-import Contact from './src/features/contact/Contact';
+import Contact from './src/features/contact/contact';
 
 import { store } from './src/app/store';
 
