@@ -7,7 +7,7 @@ export default function ContactItem() {
         name: props.contact.name,
         phone: props.contact.phone
     }) 
-  
+   
     const handleEditForm = () => {
         setUser({
             isAdd: true
