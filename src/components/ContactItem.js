@@ -3,11 +3,11 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-nativ
 
 export default function ContactItem() {
     const [user, setUser] = useState({
-        id: props.users.id,
-        name: props.users.name,
-        phone: props.users.phone
+        id: props.contact.id,
+        name: props.contact.name,
+        phone: props.contact.phone
     })
- 
+  
     const handleEditForm = () => {
         setUser({
             isAdd: true
