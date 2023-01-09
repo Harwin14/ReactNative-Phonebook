@@ -6,7 +6,7 @@ export default function ContactItem() {
         id: props.contact.id,
         name: props.contact.name,
         phone: props.contact.phone
-    })
+    }) 
   
     const handleEditForm = () => {
         setUser({
