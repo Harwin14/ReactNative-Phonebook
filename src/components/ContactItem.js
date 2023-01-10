@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Pressable } from 'react-native'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import DropShadow from "react-native-drop-shadow";
 
 
 export default function ContactItem(props) {
@@ -9,32 +10,33 @@ export default function ContactItem(props) {
         name: props.contact.name,
         phone: props.contact.phone
     })
-    const [isEdit, setEdit] = useState({
-        editCond: false,
+    const [Edit, setEdit] = useState({
+        isEdit: false,
     })
-    const editTrue = () => {
+    const handleEditForm = () => {
         setEdit({
-            editCond: true
+            isEdit: true
         })
+        props.toggle(true)
     }
-    const editFalse = () => {
+    const handleCancelForm = () => {
         setEdit({
-            editCond: false
+            isEdit: false
         })
+        props.toggle(false)
+
     }
 
-    const handleUpdate = useCallback((event) => {
-        event.preventDefault()
+    const handleUpdate = useCallback(() => {
         props.update(contact.name, contact.phone)
         setContact({ name: contact.name, phone: contact.phone })
-        editFalse()
+        handleCancelForm()
     }, [props, contact])
 
 
-
-    if (isEdit.editCond) {
+    if (Edit.isEdit) {
         return (
-            <View style={[styles.card, styles.elevation, styles.shadowProp]}>
+            <View style={[styles.cardInput, styles.elevation, styles.shadowProp]}>
                 <View>
                     <TextInput
                         style={styles.input}
@@ -45,41 +47,64 @@ export default function ContactItem(props) {
 
                 <View >
                     <TextInput
+                        style={styles.input}
                         value={contact.phone}
                         onChangeText={phone => setContact({ ...contact, phone })}
                         maxLength={30} required />
                 </View>
 
-                <View >
-                    <TouchableOpacity onPress={handleUpdate} >
-                        <Text>Update</Text>
-                    </TouchableOpacity>
+                <View  >
 
-                    <TouchableOpacity onPress={editFalse} >
-                        <Text>Cancel</Text>
-                    </TouchableOpacity>
+                    <DropShadow style={styles.shadowProp}>
+                        <Pressable
+                            style={styles.button}
+                            onPress={handleUpdate}>
+                            <Text style={styles.fontInputButton}>Update</Text>
+                        </Pressable>
+                    </DropShadow>
+                    <DropShadow style={styles.shadowProp}>
+                        <Pressable
+                            style={styles.button}
+                            onPress={handleUpdate}>
+                            <Text style={styles.fontInputButton}>Cancel</Text>
+                        </Pressable>
+                    </DropShadow>
                 </View>
             </View>
         )
     } else {
         return (
-            <View style={[styles.card, styles.elevation, styles.shadowProp]}>
-                <View style={styles.cardbody}>
-                    <View>
-                        <Text style={styles.font}>{contact.name}</Text>
-                        <Text style={styles.font}>{contact.phone}</Text>
-                    </View>
-
-                    <View>
-                    </View>
-
-                    <View style={styles.cardfooter}>
-                        <TouchableOpacity style={styles.edit} onPress={editTrue}>
-                            <FontAwesome5 style={styles.icon}name="edit" />
+            <View>
+                <View style={[styles.card, styles.elevation, styles.shadowProp]}>
+                    <View style={styles.cardbody}>
+                        <TouchableOpacity style={styles.border} onPress={handleEditForm}>
+                            <FontAwesome5 style={styles.iconUser} name="user" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={props.sent ? styles.remove : styles.resend} onPress={props.sent ? props.remove : props.resend}>
-                            <FontAwesome5 style={styles.icon} name={props.sent ? 'trash' : 'redo'} />
-                        </TouchableOpacity>
+
+                        <View>
+                            <Text style={styles.font}>{contact.name}</Text>
+                            <Text style={styles.font}>{contact.phone}</Text>
+                        </View>
+
+                        <View>
+                        </View>
+                            {
+                                props.sent ?
+                                    <View style={styles.cardfooter}>
+                                        <TouchableOpacity style={styles.edit} onPress={handleEditForm}>
+                                            <FontAwesome5 style={styles.icon} name="edit" />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.remove} onPress={props.remove}>
+                                            <FontAwesome5 style={styles.icon} name={'trash'} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    :
+                                    <View>
+                                    <TouchableOpacity style={styles.resend} onPress={ props.resend}>
+                                        <FontAwesome5 style={styles.icon} name={'redo'} />
+                                    </TouchableOpacity>
+                                    </View>
+                            }
                     </View>
                 </View>
             </View>
@@ -93,14 +118,34 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: '100%',
         marginVertical: 0,
-        borderBottomColor:'white',
-        borderWidth:1
+        borderBottomColor: 'white',
+        borderWidth: 1
+    },
+    cardInput: {
+        backgroundColor: 'white',
+        borderWidth: 2,
+        borderColor: '#636e72',
+        borderRadius: 10,
+        paddingBottom: 5,
+        paddingHorizontal: 0,
+        width: '100%',
+        marginVertical: 10,
+    },
+    input: {
+        borderWidth: 2,
+        borderColor: '#2d3436',
+        borderRightWidth: 0,
+        borderLeftWidth: 0,
+        borderRadius: 6,
+        borderTopWidth: 0,
+        height: 40,
+        textAlign: 'center',
     },
     cardbody: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: "space-between",
-        paddingLeft: 10
+        paddingLeft: 4
     },
     cardfooter: {
         display: 'flex',
@@ -109,12 +154,32 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 3
     },
-    input: {
-        borderWidth: 2,
-        borderColor: '#f5f6fa',
-        borderRadius: 6,
-        borderTopWidth: 0,
+    cardfooterInput: {
+        display: 'flex',
+        fontWeight: 400,
+        alignItems: "center",
+        paddingVertical: 3,
+        justifyContent: 'space-evenly'
+    },
+    shadowProp: {
+        shadowColor: 'black',
+        shadowOffset: { width: -2, height: 7 },
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
+    },
+    elevation: {
+        elevation: 100,
+        shadowColor: 'black',
+    },
+
+    button: {
+        backgroundColor: '#2d3436',
+        alignItems: 'center',
+        justifyContent: 'center',
         height: 40,
+        borderRadius: 10,
+        marginVertical: 1,
+        marginHorizontal: 5
     },
     shadowProp: {
         shadowColor: 'blue',
@@ -134,18 +199,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 0.25,
         textAlign: 'left',
-        padding: 5
+        paddingTop: 10,
+        width: 180
 
     },
-    button: {
-        backgroundColor: 'blue',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 40,
-        borderRadius: 10,
-        marginVertical: 10,
-        marginHorizontal: 5
+    fontInputButton: {
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 20,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        textAlign: 'left',
+        padding: 5,
+
     },
+
     edit: {
         backgroundColor: '#009432',
         alignItems: 'center',
@@ -156,11 +225,40 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         height: 50,
         width: 50,
-        borderRadius: 50 / 2
+        borderRadius: 50 / 2,
+        position: 'relative'
     },
-    icon:{
+    update: {
+        backgroundColor: '#2d3436',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        width: '100%',
+        borderRadius: 10,
+        marginVertical: 2,
+        paddingHorizontal: 5
+    },
+    icon: {
         color: 'white',
         fontSize: 20,
+    },
+    iconUser: {
+        color: 'black',
+        fontSize: 42,
+        textAlign: 'center',
+    },
+    border: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        borderRadius: 10,
+        marginVertical: 5,
+        marginHorizontal: 1,
+        height: 60,
+        width: 60,
+        borderRadius: 60 / 2
+
     },
     remove: {
         backgroundColor: '#EA2027',
@@ -184,6 +282,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginVertical: 10,
         marginHorizontal: 5,
+        color: 'white',
+        fontSize: 20,
+        height: 50,
+        width: 50,
+        borderRadius: 50 / 2,
+        marginRight: 70    
+
     },
     labelButton: {
         fontWeight: 'bold',
@@ -196,130 +301,5 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
 
     },
-  
+
 });
-
-// import React, { Component } from 'react';
-// // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// // import { faIdBadge, faPhoneSquare } from '@fortawesome/free-solid-svg-icons'
-// import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
-// export default class ContactItem extends Component {
-//     constructor(props) {
-//         super(props)
-//         this.state = {
-//             isEdit: false,
-//             name: props.contact.name,
-//             phone: props.contact.phone
-//         }
-//     }
-
-//     handleInputChange = (event) => {
-//         const target = event.target;
-//         const value = target.type === 'checkbox' ? target.checked : target.value;
-//         const name = target.name;
-
-//         this.setState({
-//             [name]: value
-//         });
-//     }
-
-//     handleUpdate = () => {
-//         this.props.update(this.state.name, this.state.phone)
-//         this.setState({ isEdit: false })
-//     }
-//     render() {
-//         if (this.state.isEdit) {
-//             return (
-//                 <View style={styles.container}>
-//                     <View>
-//                         <View>
-//                             <TextInput
-//                                 value={this.state.name}
-//                                 onPronChangeText={name => setContact({ ...contact, name })} ess={this.handleInputChange}
-//                             />
-//                         </View>
-//                         <View style=''>
-//                             <TextInput
-//                                 value={this.state.phone}
-//                                 onPress={this.handleInputChange}
-//                             />
-//                         </View>
-//                         <View>
-//                             <TouchableOpacity
-//                                 onPress={this.handleUpdate}>
-//                                 <Text> Update</Text>
-//                             </TouchableOpacity>
-
-//                             <TouchableOpacity
-//                                 onPress={() => this.setState({ isEdit: false })}>
-//                                 <Text>Cancel</Text>
-//                             </TouchableOpacity>
-//                         </View>
-
-//                     </View>
-
-//                 </View>
-//             )
-//         } else {
-//             return (
-
-//                 <View>
-//                     <View>
-//                         <View>
-//                             <View>
-//                                 <Text>{this.state.name}</Text>
-//                             </View>
-//                             <View>
-//                                 <Text>{this.state.phone}</Text>
-//                             </View>
-//                             <View>
-//                                 <TouchableOpacity onPress={() => this.setState({ isEdit: true })}>
-//                                     <Text> Edit</Text>
-//                                 </TouchableOpacity>
-//                                 <TouchableOpacity
-//                                     onPress={this.props.sent ? this.props.remove : this.props.resend}
-//                                     style={[this.props.sent ? 'styles.remove' : 'styles.resend']}>
-//                                     <Text style={styles.labelButton}>{this.props.sent ? 'Delete' : 'Resend'}</Text>
-//                                 </TouchableOpacity>
-//                             </View>
-//                         </View>
-//                     </View> 
-//                 </View>
-//             )
-//         }
-//     }
-// }
-
-
-// const styles = StyleSheet.create({
-//     container: {
-//     },
-//     remove: {
-//         backgroundColor: '#4cd137',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         height: 40,
-//         borderRadius: 10,
-//         marginTop:10,
-//         marginHorizontal:5
-//     },
-//     resend: {
-//         backgroundColor: '#4cd137',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         height: 40,
-//         borderRadius: 10,
-//         marginTop:10,
-//         marginHorizontal:5
-//     },
-//     labelButton: {
-//         fontWeight: 'bold',
-//         textTransform: 'uppercase',
-//         textAlign: 'center',
-//         color: 'red',
-//         fontSize: 16,
-//         lineHeight: 21,
-//         fontWeight: 'bold',
-//         letterSpacing: 0.25,
-//     }
-// });

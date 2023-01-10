@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import ContactItem from "../../components/ContactItem"
 import {
@@ -9,44 +9,45 @@ import {
     updateContactAsync,
     pagination
 } from './contactSlice'
-import { ScrollView, View ,StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, FlatList } from "react-native";
+import { render } from 'react-dom';
 
 
 export default function ContactList(props) {
-
+    const [users, setUser] = useState([])
     const contacts = useSelector(selectContact)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(readContactAsync())
     }, [dispatch])
-    // [dispatch] itu watcher / penonton yg []
-    //klo variable berubah ngerender /jalan ulang
 
-    const scrolling = (event) => {
-        var element = event.target;
-        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-            dispatch(pagination())
-        }
+   
+    const renderItem = ({ item }) => {
+        return (
+            <View>
+                <ContactItem
+                    key={item.id}
+                    contact={item}
+                    sent={item.sent}
+                    remove={() => dispatch(deleteContactAsync(item.id))}
+                    resend={() => dispatch(createContactAsync({ id: item.id, name: item.name, phone: item.phone }))}
+                    update={(name, phone) => dispatch(updateContactAsync({ id: item.id, name, phone }))}
+                    toggle={props.toggle}
+                />
+            </View>
+        )
     }
-
     return (
-        <View> 
-        <ScrollView scrollEnabled={scrolling} pagingEnabled={true} showsHorizontalScrollIndicator={true}>
-            {
-                contacts.map((user, index) => (
-                    <ContactItem
-                        key={user.id}
-                        contact={user}
-                        sent={user.sent}
-                        remove={() => dispatch(deleteContactAsync(user.id))}
-                        resend={() => dispatch(createContactAsync({ id: user.id, name: user.name, phone: user.phone }))}
-                        update={(name, phone) => dispatch(updateContactAsync({ id: user.id, name, phone }))}
-                    />
-                ))
-            }
-        </ScrollView>
-        </View>
+        <FlatList
+            style={{maxHeight:600}}
+            data={contacts}
+            renderItem={renderItem}
+            keyExtractor={user => user.id}
+            onEndReached={() => dispatch(pagination())}
+            onEndReachedThreshold={0.2}
+
+        />
     )
 }
 const styles = StyleSheet.create({
@@ -77,13 +78,13 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
         marginTop: 10
     },
-    input:{
-        borderWidth:2,
-        borderColor:'#f5f6fa',
-        borderRadius:6,
-        borderTopWidth:0,
+    input: {
+        borderWidth: 2,
+        borderColor: '#f5f6fa',
+        borderRadius: 6,
+        borderTopWidth: 0,
         height: 40
-      },
+    },
     shadowProp: {
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 4 },
@@ -104,8 +105,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         borderRadius: 10,
-        marginTop:10,
-        marginHorizontal:5
+        marginTop: 10,
+        marginHorizontal: 5
     },
     cancel: {
         backgroundColor: '#f39c12',
@@ -113,8 +114,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         borderRadius: 10,
-        marginVertical:10,
-        marginHorizontal:5
+        marginVertical: 10,
+        marginHorizontal: 5
     },
     labelButton: {
         fontWeight: 'bold',

@@ -5,7 +5,7 @@ import { create } from './contactSlice'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faBan, faCircleCheck, faAddressCard } from '@fortawesome/free-solid-svg-icons'
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, Keyboard } from 'react-native';
 import DropShadow from "react-native-drop-shadow";
 
 export default function ContactForm(props) {
@@ -19,6 +19,7 @@ export default function ContactForm(props) {
     const handleSubmit = useCallback(() => {
         dispatch(create(user.name, user.phone))
         setUser({ name: '', phone: '' })
+        Keyboard.dismiss()
     }, [dispatch, user])
 
     return (

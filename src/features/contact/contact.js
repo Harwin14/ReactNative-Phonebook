@@ -5,12 +5,11 @@ import ContactSearch from "./ContactSearch"
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { Colors } from "react-native/Libraries/NewAppScreen";
-
 
 export default function Contact() {
     const [user, setUser] = useState({
-        isAdd: false
+        isAdd: false,
+        isEdit: false
     })
 
     const handleAddForm = () => {
@@ -23,7 +22,13 @@ export default function Contact() {
             isAdd: false
         })
     }
+    const handeSearch = (value) => {
+        setUser({
+            isEdit: value
+        })
+    }
     return (
+
         <View style={styles.container}>
             <View style={styles.h1}>
                 <FontAwesome5 style={styles.icon} name="address-book" />
@@ -31,21 +36,28 @@ export default function Contact() {
             </View>
             <View >
                 {
-                    user.isAdd ? <ContactForm cancel={handleCancelForm} />
+                    user.isAdd ?
+                        <ContactForm cancel={handleCancelForm} />
                         :
-                        <TouchableOpacity style={styles.button} onPress={handleAddForm}>
-                            <View style={styles.h1}>
-                            <FontAwesome5 style={styles.icon1} name="plus" />
-                            <Text style={styles.labelButton}> Add</Text>
-                            </View>
-                        </TouchableOpacity>
+                        <View>
+
+                            <TouchableOpacity style={styles.button} onPress={handleAddForm}>
+                                <View style={styles.h1}>
+                                    <FontAwesome5 style={styles.icon1} name="plus" />
+                                    <Text style={styles.labelButton}> Add</Text>
+                                </View>
+                            </TouchableOpacity>
+                            {
+                                !user.isEdit && <ContactSearch />
+
+                            }
+                        </View>
                 }
-                <ContactSearch />
             </View>
             <View>
-                <ContactList />
-            </View>
 
+                <ContactList toggle={handeSearch} />
+            </View>
         </View>
     )
 }
@@ -85,7 +97,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
         textAlign: 'center',
-        color:'#dfe6e9',
+        color: '#dfe6e9',
         fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
