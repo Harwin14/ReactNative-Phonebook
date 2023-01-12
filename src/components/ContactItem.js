@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
         borderRadius: 10, 
         marginVertical: 1,
         marginHorizontal: 5
-    },   
+    },    
     buttonDialog: {
         backgroundColor: '#2d3436',
         alignItems: 'left',
