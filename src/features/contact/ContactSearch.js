@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { search } from './contactSlice';
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, Keyboard } from 'react-native';
 import DropShadow from "react-native-drop-shadow";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 
 export default function ContactForm(props) {
@@ -14,11 +15,10 @@ export default function ContactForm(props) {
         phone: ''
     })
 
-
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
+    const handleSubmit = useCallback(() => {
         dispatch(search({ name: user.name, phone: user.phone }))
         setUser({ name: '', phone: '' })
+        Keyboard.dismiss()
     }, [dispatch, user])
 
 
@@ -28,19 +28,19 @@ export default function ContactForm(props) {
             <View style={[styles.card, styles.elevation, styles.shadowProp]}>
                 <View style={styles.cardHeader}>
                     <View style={styles.h1}>
-                        <FontAwesome5 style={styles.icon} name="search" />
+                        <Icon style={styles.icon} name="text-box-search" />
                         <Text style={styles.chead}> Search Form</Text>
                     </View>
                 </View>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter Contact Name here.."
+                    placeholder="Type Contact Name here.."
                     onChangeText={name => setUser({ ...user, name })}
                     defaultValue={user.name}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter Phone number here.."
+                    placeholder="Type Phone number here.."
                     onChangeText={phone => setUser({ ...user, phone })}
                     defaultValue={user.phone}
                 />
@@ -48,7 +48,10 @@ export default function ContactForm(props) {
                     <Pressable
                         style={styles.button}
                         onPress={handleSubmit}>
-                        <Text style={styles.labelButton}>Search</Text>
+                        <View style={styles.row}>
+                            <FontAwesome5 style={styles.icon1} name="search" />
+                            <Text style={styles.labelButton}> Search</Text>
+                        </View>
                     </Pressable>
                 </DropShadow>
 
@@ -132,6 +135,15 @@ const styles = StyleSheet.create({
     icon: {
         color: '#dfe6e9',
         fontSize: 20,
-        paddingTop:8
+        paddingTop: 8
+    }, 
+    icon1: {
+        color: '#dfe6e9',
+        fontSize: 20,
+    },
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-between",
     },
 });

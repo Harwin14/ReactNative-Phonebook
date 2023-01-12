@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-  baseURL: 'http://192.168.1.24:3001/',
+  baseURL: 'http://192.168.1.66:3001/',
   timeout: 1000,
   headers: { 'Authorization': 'token' }
 });
@@ -14,17 +14,5 @@ export const updateContact = (id, name, phone) => request.put(`users/${id}`,{nam
 
 export const deleteContact = (id) => request.delete(`users/${id}`) 
 
-// export const search = (query) =>  getState => {
-//       let state = getState()
-//       let params = {
-//           ...state.contacts.params,
-//           ...query,
-//           page: 1
-//       }
-//           const { data } = request.get('users', { params })
-//           params = {
-//               ...params,
-//               totalPages: data.data.totalPages
-//           }  
-// }
+
 

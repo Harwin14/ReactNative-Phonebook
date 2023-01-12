@@ -1,10 +1,27 @@
 import { useCallback, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Pressable } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Pressable, Button } from 'react-native'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DropShadow from "react-native-drop-shadow";
-
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Dialog from "react-native-dialog";
 
 export default function ContactItem(props) {
+    const [visible, setVisible] = useState(false);
+
+    const showDialog = () => {
+        setVisible(true);
+    };
+
+    const handleCancel = () => {
+        setVisible(false);
+    };
+
+    const handleDelete = () => {
+        // The user has pressed the "Delete" button, so here you can do your own logic.
+        // ...Your logic
+        setVisible(false);
+    };
+
     const [contact, setContact] = useState({
         id: props.contact.id,
         name: props.contact.name,
@@ -24,7 +41,6 @@ export default function ContactItem(props) {
             isEdit: false
         })
         props.toggle(false)
-
     }
 
     const handleUpdate = useCallback(() => {
@@ -36,7 +52,7 @@ export default function ContactItem(props) {
 
     if (Edit.isEdit) {
         return (
-            <View style={[styles.cardInput, styles.elevation, styles.shadowProp]}>
+            <View style={styles.cardInput}>
                 <View>
                     <TextInput
                         style={styles.input}
@@ -45,7 +61,7 @@ export default function ContactItem(props) {
                         maxLength={30} required />
                 </View>
 
-                <View >
+                <View>
                     <TextInput
                         style={styles.input}
                         value={contact.phone}
@@ -53,20 +69,25 @@ export default function ContactItem(props) {
                         maxLength={30} required />
                 </View>
 
-                <View  >
-
+                <View>
                     <DropShadow style={styles.shadowProp}>
                         <Pressable
                             style={styles.button}
                             onPress={handleUpdate}>
-                            <Text style={styles.fontInputButton}>Update</Text>
+                            <View style={styles.row}>
+                                <Icon style={styles.icon} name="content-save-check" />
+                                <Text style={styles.fontInputButton}>Update</Text>
+                            </View>
                         </Pressable>
                     </DropShadow>
                     <DropShadow style={styles.shadowProp}>
                         <Pressable
                             style={styles.button}
                             onPress={handleUpdate}>
-                            <Text style={styles.fontInputButton}>Cancel</Text>
+                            <View style={styles.row}>
+                                <Icon style={styles.icon} name="close-box-multiple" />
+                                <Text style={styles.fontInputButton}>Cancel</Text>
+                            </View>
                         </Pressable>
                     </DropShadow>
                 </View>
@@ -75,7 +96,7 @@ export default function ContactItem(props) {
     } else {
         return (
             <View>
-                <View style={[styles.card, styles.elevation, styles.shadowProp]}>
+                <View style={styles.card}>
                     <View style={styles.cardbody}>
                         <TouchableOpacity style={styles.border} onPress={handleEditForm}>
                             <FontAwesome5 style={styles.iconUser} name="user" />
@@ -85,26 +106,58 @@ export default function ContactItem(props) {
                             <Text style={styles.font}>{contact.name}</Text>
                             <Text style={styles.font}>{contact.phone}</Text>
                         </View>
-
                         <View>
                         </View>
-                            {
-                                props.sent ?
-                                    <View style={styles.cardfooter}>
-                                        <TouchableOpacity style={styles.edit} onPress={handleEditForm}>
-                                            <FontAwesome5 style={styles.icon} name="edit" />
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.remove} onPress={props.remove}>
-                                            <FontAwesome5 style={styles.icon} name={'trash'} />
-                                        </TouchableOpacity>
+                        {
+                            props.sent ?
+                                <View style={styles.cardfooter}>
+                                    <TouchableOpacity style={styles.edit} onPress={handleEditForm}>
+                                        <FontAwesome5 style={styles.icon} name="edit" />
+                                    </TouchableOpacity>
+                                    <View style={styles.container}>
+                                        <View>
+                                            <TouchableOpacity style={styles.remove} onPress={showDialog}>
+                                                <FontAwesome5 style={styles.icon} name={'trash'} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <Dialog.Container visible={visible}>
+                                            <Dialog.Title>Contact delete</Dialog.Title>
+                                            <Dialog.Description>
+                                                Do you want to delete this contact?
+                                            </Dialog.Description>
+
+                                            <View>
+                                                <DropShadow style={styles.shadowProp}>
+                                                    <TouchableOpacity
+                                                        style={styles.button}
+                                                        onPress={props.remove}>
+                                                        <View style={styles.row}>
+                                                            <FontAwesome5 style={styles.iconRed} name={'trash'} />
+                                                            <Text style={styles.fontInputButtonRed}> Delete</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                </DropShadow>
+                                                <DropShadow style={styles.shadowProp}>
+                                                    <Pressable
+                                                        style={styles.buttonDialog}
+                                                        onPress={handleCancel}>
+                                                        <View style={styles.row}>
+                                                            <Icon style={styles.iconGreen} name="cancel" />
+                                                            <Text style={styles.fontInputButtonGreen}>Cancel</Text>
+                                                        </View>
+                                                    </Pressable>
+                                                </DropShadow>
+                                            </View>
+                                        </Dialog.Container>
                                     </View>
-                                    :
-                                    <View>
-                                    <TouchableOpacity style={styles.resend} onPress={ props.resend}>
+                                </View>
+                                :
+                                <View>
+                                    <TouchableOpacity style={styles.resend} onPress={props.resend}>
                                         <FontAwesome5 style={styles.icon} name={'redo'} />
                                     </TouchableOpacity>
-                                    </View>
-                            }
+                                </View>
+                        }
                     </View>
                 </View>
             </View>
@@ -115,11 +168,11 @@ export default function ContactItem(props) {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#2d3436',
-        borderRadius: 10,
+        borderRadius: 15,
         width: '100%',
-        marginVertical: 0,
-        borderBottomColor: 'white',
-        borderWidth: 1
+        marginVertical: 2,
+        borderWidth: 1,
+        paddingBottom: 4
     },
     cardInput: {
         backgroundColor: 'white',
@@ -161,6 +214,11 @@ const styles = StyleSheet.create({
         paddingVertical: 3,
         justifyContent: 'space-evenly'
     },
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-between",
+    },
     shadowProp: {
         shadowColor: 'black',
         shadowOffset: { width: -2, height: 7 },
@@ -175,6 +233,15 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#2d3436',
         alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        borderRadius: 10,
+        marginVertical: 1,
+        marginHorizontal: 5
+    },
+    buttonDialog: {
+        backgroundColor: '#2d3436',
+        alignItems: 'left',
         justifyContent: 'center',
         height: 40,
         borderRadius: 10,
@@ -205,7 +272,7 @@ const styles = StyleSheet.create({
     },
     fontInputButton: {
         fontWeight: 'bold',
-        color: 'white',
+        color: 'red',
         fontSize: 20,
         lineHeight: 21,
         fontWeight: 'bold',
@@ -214,7 +281,28 @@ const styles = StyleSheet.create({
         padding: 5,
 
     },
+    fontInputButtonRed: {
+        fontWeight: 'bold',
+        color: 'red',
+        fontSize: 20,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        textAlign: 'left',
+        padding: 5,
 
+    },
+    fontInputButtonGreen: {
+        fontWeight: 'bold',
+        color: 'green',
+        fontSize: 20,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        textAlign: 'left',
+        padding: 5,
+
+    },
     edit: {
         backgroundColor: '#009432',
         alignItems: 'center',
@@ -241,11 +329,26 @@ const styles = StyleSheet.create({
     icon: {
         color: 'white',
         fontSize: 20,
+        paddingTop: 4
+    },
+    iconRed: {
+        color: 'red',
+        fontSize: 20,
+        paddingTop: 4
+    },
+    iconGreen: {
+        color: 'green',
+        fontSize: 20,
+        paddingTop: 4
     },
     iconUser: {
         color: 'black',
         fontSize: 42,
         textAlign: 'center',
+    },
+    iconCancel: {
+        color: 'black',
+        fontSize: 42,
     },
     border: {
         backgroundColor: 'white',
@@ -253,7 +356,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         borderRadius: 10,
-        marginVertical: 5,
+        marginVertical: 8,
         marginHorizontal: 1,
         height: 60,
         width: 60,
@@ -287,7 +390,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50,
         borderRadius: 50 / 2,
-        marginRight: 70    
+        marginRight: 70
 
     },
     labelButton: {

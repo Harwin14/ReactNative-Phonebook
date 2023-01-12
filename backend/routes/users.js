@@ -109,7 +109,7 @@ router.get('/', async function (req, res, next) {
     const { name, phone } = req.query
 
     const page = parseInt(req.query.page) || 1
-    const limit = 8
+    const limit = 5
     const offset = (page - 1) * limit
 
 
@@ -161,7 +161,7 @@ router.get('/', async function (req, res, next) {
     } else {
       const { count, rows } = await models.User.findAndCountAll({
         order: [
-          ["id", "ASC"]
+          ["id", "DESC"]
         ],
         limit,
         offset
