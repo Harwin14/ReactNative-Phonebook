@@ -270,7 +270,6 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         paddingTop: 10,
         width: 180
-
     },
     fontInputButton: {
         fontWeight: 'bold',
