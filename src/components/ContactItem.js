@@ -116,7 +116,9 @@ export default function ContactItem(props) {
                                     </TouchableOpacity>
                                     <View style={styles.container}>
                                         <View>
-                                            <TouchableOpacity style={styles.remove} onPress={showDialog}>
+                                            <TouchableOpacity style={styles.remove} 
+                                            onPress={showDialog}
+                                            >
                                                 <FontAwesome5 style={styles.icon} name={'trash'} />
                                             </TouchableOpacity>
                                         </View>
@@ -241,7 +243,7 @@ const styles = StyleSheet.create({
     },    
     buttonDialog: {
         backgroundColor: '#2d3436',
-        alignItems: 'left',
+        alignItems: 'center',
         justifyContent: 'center',
         height: 40,
         borderRadius: 10,
@@ -272,7 +274,7 @@ const styles = StyleSheet.create({
     },
     fontInputButton: {
         fontWeight: 'bold',
-        color: 'red',
+        color: 'white',
         fontSize: 20,
         lineHeight: 21,
         fontWeight: 'bold',

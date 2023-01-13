@@ -4,7 +4,7 @@ import { readContactAsync } from "./contactSlice";
 import ContactForm from "./ContactForm";
 import ContactList from "./ContactList";
 import ContactSearch from "./ContactSearch"
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -34,6 +34,7 @@ export default function Contact() {
     }
     const handleReset = useCallback(() => {
         dispatch(readContactAsync())
+        Keyboard.dismiss()
     }, [dispatch])
 
     return (
