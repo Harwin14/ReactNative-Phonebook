@@ -231,7 +231,6 @@ const styles = StyleSheet.create({
         elevation: 100,
         shadowColor: 'black',
     },
-
     button: {
         backgroundColor: '#2d3436',
         alignItems: 'center',
