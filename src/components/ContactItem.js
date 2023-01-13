@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
         paddingVertical: 3,
         justifyContent: 'space-evenly'
     },
-    row: {
+    row: { 
         display: 'flex',
         flexDirection: 'row',
         justifyContent: "space-between",
