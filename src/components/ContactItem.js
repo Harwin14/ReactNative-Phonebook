@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
         textAlign: 'left',
         paddingTop: 10,
-        width: 180
+        width: 180 
     },
     fontInputButton: {
         fontWeight: 'bold',
