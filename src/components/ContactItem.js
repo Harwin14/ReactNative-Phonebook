@@ -11,7 +11,7 @@ export default function ContactItem(props) {
     const showDialog = () => {
         setVisible(true);
     };
-
+ 
     const handleCancel = () => {
         setVisible(false);
     };
@@ -22,8 +22,8 @@ export default function ContactItem(props) {
         setVisible(false);
     };
 
-    const [contact, setContact] = useState({
-        id: props.contact.id,
+    const [contact, setContact] = useState({ 
+        id: props.contact.id, 
         name: props.contact.name,
         phone: props.contact.phone
     })
