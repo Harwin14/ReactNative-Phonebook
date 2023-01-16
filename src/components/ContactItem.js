@@ -20,7 +20,7 @@ export default function ContactItem(props) {
         // The user has pressed the "Delete" button, so here you can do your own logic.
         // ...Your logic
         setVisible(false);
-    };
+    }; 
 
     const [contact, setContact] = useState({ 
         id: props.contact.id, 
