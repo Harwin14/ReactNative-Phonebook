@@ -26,7 +26,7 @@ export default function ContactItem(props) {
         id: props.contact.id, 
         name: props.contact.name, 
         phone: props.contact.phone
-    })
+    }) 
     const [Edit, setEdit] = useState({
         isEdit: false,
     })
