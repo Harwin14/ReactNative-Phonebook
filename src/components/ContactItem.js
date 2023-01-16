@@ -23,7 +23,7 @@ export default function ContactItem(props) {
     };  
 
     const [contact, setContact] = useState({ 
-        id: props.contact.id, 
+        id: props.contact.id,  
         name: props.contact.name, 
         phone: props.contact.phone
     }) 
